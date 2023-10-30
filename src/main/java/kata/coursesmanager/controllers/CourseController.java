@@ -1,7 +1,6 @@
 package kata.coursesmanager.controllers;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Timer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kata.coursesmanager.dto.CourseDTO;
 import kata.coursesmanager.exceptions.FunctionalException;
-import kata.coursesmanager.prometheus.TimerTasks;
 import kata.coursesmanager.services.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/courses")
@@ -33,7 +30,6 @@ public class CourseController {
 
     private final CourseService courseService;
     private final KafkaTemplate<String, CourseDTO> kafkaTemplate;
-    private final MeterRegistry meterRegistry;
 
 
     @Value("${kata.coursesmanager.kafka.topic}")
@@ -79,12 +75,6 @@ public class CourseController {
         //TODO mise a jour de la course
         return course;
     }
-    @GetMapping("/test")
-    public String metrices(){
-        Timer timer = TimerTasks.buildTimer(meterRegistry);
-        timer.record(15000, TimeUnit.MILLISECONDS);
 
-        return "OK";
-    }
 
 }
