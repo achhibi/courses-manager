@@ -1,5 +1,6 @@
 # Créer une course
 
+```
 curl --location 'http://localhost:8080/courses' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Basic YWRtaW46YWRtaW4=' \
@@ -26,3 +27,4 @@ curl --location 'http://localhost:8080/courses' \
 }
 ]
 }'
+```
